@@ -20,18 +20,18 @@ HOW TO FILL THIS FILE
 
 | Field | Value |
 |---|---|
-| Team ID (from dashboard) | `<HM1-XXXX>` |
-| Team Name | `<team name>` |
-| College(s) | `<college name(s)>` |
-| Team Leader | `<name>` · `<email>` · `<phone>` |
+| Team ID (from dashboard) | `HM26-8941` |
+| Team Name | `Root Accessors` |
+| College(s) | `GSSSIETW` |
+| Team Leader | `Greeshmaa J Gore` · `greeshmaajgore@gmail.com` · `<phone>` |
 | Repository | `<https://github.com/org-or-user/repo>` |
 
 | # | Member | Program & Year | GitHub Handle | Primary Role |
 |---|---|---|---|---|
-| 1 | `<name>` (Lead) | `<B.E. CSE, 3rd yr>` | `@<handle>` | `<backend / ML / frontend / ...>` |
-| 2 | `<name>` | `<...>` | `@<handle>` | `<...>` |
-| 3 | `<name>` | `<...>` | `@<handle>` | `<...>` |
-| 4 | `<name>` | `<...>` | `@<handle>` | `<...>` |
+| 1 | `Greeshmaa J Gore` (Lead) | `B.E. CSE(AI & ML), 2rd yr` | `@<handle>` | `` |
+| 2 | `Bindhu R` | `B.E. CSE(AI & ML), 2rd yr` | `@<handle>` | `<...>` |
+| 3 | `Caren Adria Thomas` | `B.E. CSE(AI & ML), 2rd yr` | `@<handle>` | `<...>` |
+
 
 ---
 
