@@ -28,9 +28,9 @@ HOW TO FILL THIS FILE
 
 | # | Member | Program & Year | GitHub Handle | Primary Role |
 |---|---|---|---|---|
-| 1 | `Greeshmaa J Gore` (Lead) | `B.E. CSE(AI & ML), 2rd yr` | `@<handle>` | `` |
-| 2 | `Bindhu R` | `B.E. CSE(AI & ML), 2rd yr` | `@<handle>` | `<...>` |
-| 3 | `Caren Adria Thomas` | `B.E. CSE(AI & ML), 2rd yr` | `@<handle>` | `<...>` |
+| 1 | `Greeshmaa J Gore` (Lead) | `B.E. CSE(AI & ML), 2rd yr` | `@<handle>` | `Backend` |
+| 2 | `Bindhu R` | `B.E. CSE(AI & ML), 2rd yr` | `@<handle>` | `Backend` |
+| 3 | `Caren Adria Thomas` | `B.E. CSE(AI & ML), 2rd yr` | `@<handle>` | `Frontend` |
 
 
 ---
