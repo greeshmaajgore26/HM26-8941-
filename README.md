@@ -24,7 +24,7 @@ Keep the section ORDER below. Reviewers look for each section in the same place 
 - **Why it matters:**  Students may lose interest, struggle with difficult topics, or move ahead without understanding the basics.
 - **Why we chose this over the others:**We want every student to learn at their own pace with the right concepts, difficulty, quizzes, and mentor support.
 - **What "solved" looks like for us:** Every student gets a clear learning path that adapts to their performance and shows exactly what they should learn next.
-## 2. Target Users & Mysuru Context
+## 2. Target Users 
 
 | User | Their situation | What they need from us |
 |---|---|---|
