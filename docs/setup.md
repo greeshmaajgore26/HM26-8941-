@@ -8,40 +8,51 @@
 
 | Tool | Version |
 |---|---|
-| `<Node.js / Python / Docker>` | `<20.x / 3.11 / 24+>` |
-
+| `Node.js` | `20.x or later` |
+| `npm` | `10.x or later` |
+| `Git` | `Latest stable version` |
+| `Web browser` | `Chrome` |
 ## 1. Clone
 
 ```bash
-git clone <repo-url>
-cd <repo>
+git clone https://github.com/greeshmaajgore26/HM26-8941-.git
+cd HM26-8941-
 ```
 
 ## 2. Environment Variables
 
 ```bash
-cp .env.example .env
+  cp .env.example .env.local
 ```
 
 | Variable | Required | Example | Purpose |
 |---|---|---|---|
-| `DATABASE_URL` | Yes | `<...>` | `<...>` |
-| `<API_KEY>` | `<No>` | `<...>` | `<...>` |
+| `OPENAI_API_KEY` | Yes | `sk-....` | `Powers AI features such as personalized learning, question generation, doubt assistance, and contextual re-theming` |
+
 
 > Never commit real secrets. Commit only `.env.example`.
 
 ## 3. Install & Seed Demo Data
 
 ```bash
-<install command>
-<migration command>
-<seed command>          # loads <N> sample complaints across <N> wards
+  npm install
+  This project does not require a database migration or seed command. Demo learning data is included in the application.
 ```
 
 ## 4. Run
 
 ```bash
-<run command>
+npm run dev
+
+The Vite development server will display the local URL in the terminal, typically:
+
+http://localhost:5173
+
+npm run server
+
+The AI server runs on:
+
+http://localhost:5000
 ```
 
 Open `http://localhost:<port>`. Test accounts are listed in [resource.md](../resource.md#5-live-mvp).
