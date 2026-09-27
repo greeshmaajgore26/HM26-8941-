@@ -21,7 +21,7 @@ If you used no AI at all, say so explicitly in the Summary and delete the rest.
 |---|---|
 | Did we use AI tools during development? | yes |
 | Does our product use AI/ML at runtime? | yes |
-| Roughly how much of the code was AI-assisted? | ~40% of the code |
+| Roughly how much of the code was AI-assisted? | ~60% of the code |
 | Can every team member explain the AI-assisted code? | yes |
 
 ---
