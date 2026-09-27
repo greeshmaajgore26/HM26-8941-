@@ -30,7 +30,6 @@ Keep the section ORDER below. Reviewers look for each section in the same place 
 |---|---|---|
 | School / college student  | Different learning speeds and different levels of understanding  |Personalized learning path, suitable difficulty, quick quizzes, and progress tracking|
 | Teacher / mentor  |Difficult to individually track every student's strengths and weaknesses   |Student performance insights, weak-topic identification, and intervention options  |
-| Parent | May not know what their child is learning or where they are struggling | Simple progress updates and areas where the student needs support    |
 
 **Local context we designed for:**  English support, basic Android phones, low-data usage, different levels of digital literacy, self-paced learning, and learning at the student's own speed.
 ## 3. Solution Overview
