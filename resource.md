@@ -37,9 +37,9 @@ HOW TO FILL THIS FILE
 
 ## 2. What We Built (one-liner)
 
-**Sub-problem:** `<Routing | Follow-through | Visibility | Verification | Detection without reporting | Segregation drift | Hotspot pattern-finding | Field worker feedback loop | Own: ____>`
+**Sub-problem:** Structured Learning Path | Adaptive Difficulty | Immediate Assessment | Test-Based Personalization | AI Learning Map | Progress Visibility | Prerequisite Tracking | Human-in-the-Loop Mentorship | Own: Personalized Learning Journey____>`
 
-**In one sentence:** `<e.g. "An offline-first reporting app that auto-routes complaints to MCC, town panchayat or gram panchayat using ward boundaries and issue type, with a confidence score for boundary cases.">`
+**In one sentence:** An AI-powered personalized learning platform that creates a structured, self-paced learning path for each student, adapts difficulty based on performance, unlocks concepts through prerequisites, provides immediate quizzes and progress tracking, and enables mentor intervention when needed.”
 
 ---
 
