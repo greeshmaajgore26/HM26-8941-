@@ -20,57 +20,52 @@ Keep the section ORDER below. Reviewers look for each section in the same place 
 
 **Chosen sub-problem:** `<e.g. Routing>`
 
-- **The gap we saw:** `<What actually goes wrong today, in Mysuru terms>`
-- **Why it matters:** `<Consequence: delay, bounced complaints, lost trust, health risk>`
-- **Why we chose this over the others:** `<Your reasoning>`
-- **What "solved" looks like for us:** `<A measurable outcome, e.g. "a citizen never has to pick an office">`
-
+- **The gap we saw:** Students learn at different speeds, but most learning systems give everyone the same content and difficulty. 
+- **Why it matters:**  Students may lose interest, struggle with difficult topics, or move ahead without understanding the basics.
+- **Why we chose this over the others:**We want every student to learn at their own pace with the right concepts, difficulty, quizzes, and mentor support.
+- **What "solved" looks like for us:** Every student gets a clear learning path that adapts to their performance and shows exactly what they should learn next.
 ## 2. Target Users & Mysuru Context
 
 | User | Their situation | What they need from us |
 |---|---|---|
-| `<Resident in a ward at the MCC–panchayat edge>` | `<No idea which office owns the drain; patchy 4G>` | `<Report once, see who owns it, see status>` |
-| `<Panchayat / MCC officer>` | `<...>` | `<...>` |
-| `<Sanitation / field worker>` | `<Basic Android phone, low data>` | `<...>` |
+| School / college student  | Different learning speeds and different levels of understanding  |Personalized learning path, suitable difficulty, quick quizzes, and progress tracking|
+| Teacher / mentor  |Difficult to individually track every student's strengths and weaknesses   |Student performance insights, weak-topic identification, and intervention options  |
+| Parent | May not know what their child is learning or where they are struggling | Simple progress updates and areas where the student needs support    |
 
-**Local context we designed for:** `<jurisdiction overlap, connectivity, Kannada/English, device types, literacy>`
-
+**Local context we designed for:**  English support, basic Android phones, low-data usage, different levels of digital literacy, self-paced learning, and learning at the student's own speed.
 ## 3. Solution Overview
-
-<!-- Plain language. A non-engineer should follow this. -->
-
-`<2–4 sentence summary>`
+Our AI-powered learning platform gives each student a personalized learning path based on their knowledge and performance. It starts with basic concepts, checks prerequisites, gives quick quizzes, and automatically adjusts the difficulty. Students can learn at their own pace while teachers or mentors can monitor progress and provide support.
+ 
 
 **Core flow:**
-1. `<Citizen does X>`
-2. `<System does Y>`
-3. `<Staff does Z>`
-4. `<Citizen sees outcome>`
+1. Student selects a learning goal or topic.
+2. System creates a personalized learning path and recommends the next concept.
+3. Student learns the concept and takes a quick quiz; AI adjusts the difficulty based on the result.
+4. Student sees their progress, next topic, and areas that need improvement, while mentors can provide support.Student learns the concept and takes a quick quiz; AI adjusts the difficulty based on the result. 
 
 **Screenshots:** `<2–4 images under docs/images/, each < 1 MB>`
 
 ## 4. Architecture
 
-`<One-sentence summary, e.g. "Offline-first PWA → REST API → PostgreSQL/PostGIS, with a rules-based routing service.">`
+Student App → AI Personalization Engine → Learning Content & Quiz System → Progress Database → Teacher/Mentor Dashboard
 
 ➡️ Diagram, components, data model and APIs: **[docs/architecture.md](./docs/architecture.md)**
 
 ## 5. Tech Stack & AI Usage
 
-**Stack:** `<React PWA · FastAPI · PostgreSQL + PostGIS · Render>` (full rationale in [docs/architecture.md](./docs/architecture.md#tech-stack))
+**Stack:** React · FastAPI · Python · PostgreSQL · HTML/CSS/JavaScript (full rationale in [docs/architecture.md](./docs/architecture.md#tech-stack))
 
-**AI tools used in development:** `<ChatGPT, Copilot, ...>`
-**AI inside the product:** `<e.g. YOLOv8 for bin detection / none>`
-
+**AI tools used in development:** ChatGPT · GitHub Copilot
+**AI inside the product:**AI-based personalized learning and adaptive difficulty system
 ➡️ Full disclosure: **[ai.md](./ai.md)**
 
 ## 6. Decision Log (Summary)
 
 <!-- The full 1-page Decision Log is a PDF on Google Drive, linked in resource.md. ≤ 3 lines here. -->
 
-- **Chose:** `<approach>`, **over:** `<rejected alternative>`
-- **Because:** `<the trade-off in one line>`
-- **First thing to break at city scale:** `<one line>`
+- **Chose:** AI-based personalized learning path ,**over:** Same learning path for every student
+- **Because:** Students have different learning speeds and knowledge levels, so the system adapts to individual performance.
+- **First thing to break at city scale:** Managing large amounts of student data and providing personalized recommendations quickly.
 
 ➡️ Full decision log: **[resource.md](./resource.md#4-submission-artifacts-google-drive)** · Template: **[decision-log-template.md](./resource-templates/decision-log-template.md)**
 
@@ -85,9 +80,9 @@ git clone <repo-url> && cd <repo>
 
 ## 8. Known Limitations
 
-- `<Top limitation 1>`
-- `<Top limitation 2>`
-- `<Top limitation 3>`
+- AI recommendations may not always be accurate, especially with limited student performance data.
+- Limited learning content and subjects are available in the current prototype.
+- Mentor support and personalization may be limited when there is not enough student progress data.
 
 ➡️ Full list, edge cases and scaling roadmap: **[docs/limitations.md](./docs/limitations.md)**
 
@@ -96,8 +91,10 @@ git clone <repo-url> && cd <repo>
 ## Team
 
 | Name | Role | GitHub |
-|---|---|---|
-| `<...>` | `<...>` | `@<...>` |
+|Greeshmaa J Gore|AI/ML & Personalization|@greeshmaajgore26|
+| Bindhu r | AI/ML & personalization| @bindhur |
+| Caren Adria Thomas| AI/ML & personalization |@caren|
+
 
 ## License
 
