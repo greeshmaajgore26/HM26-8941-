@@ -1,4 +1,4 @@
-# `<Project Name>` — StudySync
+# `StudySync` 
 
 > HackMysuru 1.0 · Phase 1 · Civic Governance & Clean Mysuru
 > Team `<Team Name>` (`<Team ID>`)
