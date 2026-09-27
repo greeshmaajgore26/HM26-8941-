@@ -61,8 +61,12 @@ const exercises = [
   },
 ];
 
-function FocusBreak({ onExit }) {
+function FocusBreak({ onExit, onModeChange }) {
   const [mode, setMode] = useState("focus");
+
+  const [focusMinutes, setFocusMinutes] = useState(25);
+
+  const [focusStarted, setFocusStarted] = useState(false);
 
   const [timeLeft, setTimeLeft] =
     useState(25 * 60);
@@ -77,9 +81,15 @@ function FocusBreak({ onExit }) {
     useState(0);
 
   useEffect(() => {
+    if (mode === "focus" && !focusStarted) {
+      return;
+    }
+
     if (timeLeft <= 0) {
       if (mode === "focus") {
         setMode("break");
+        setFocusStarted(false);
+        onModeChange?.("break");
         setTimeLeft(5 * 60);
       }
 
@@ -104,12 +114,29 @@ function FocusBreak({ onExit }) {
 
   function startBreak() {
     setMode("break");
+    setFocusStarted(false);
+    onModeChange?.("break");
     setTimeLeft(5 * 60);
   }
 
   function startFocusAgain() {
     setMode("focus");
-    setTimeLeft(25 * 60);
+    setFocusStarted(false);
+    onModeChange?.("focus");
+    setTimeLeft(focusMinutes * 60);
+  }
+
+  function beginFocusTimer() {
+    const minutes = Number(focusMinutes);
+
+    if (!Number.isFinite(minutes) || minutes < 1) {
+      return;
+    }
+
+    setMode("focus");
+    onModeChange?.("focus");
+    setTimeLeft(minutes * 60);
+    setFocusStarted(true);
   }
 
   function nextRiddle() {
@@ -131,175 +158,355 @@ function FocusBreak({ onExit }) {
   const exercise = exercises[exerciseIndex];
 
   return (
-    <div style={styles.page}>
-      <div style={styles.card}>
+    <div
+      style={
+        mode === "break"
+          ? styles.breakPage
+          : focusStarted
+          ? styles.activeFocusPage
+          : styles.page
+      }
+    >
+      {mode === "focus" && focusStarted ? (
+        /* ACTIVE FOCUS: intentionally tiny and pinned to the top */
+        <div style={styles.activeFocusBar}>
+          <div style={styles.activeFocusLabel}>
+            <span style={styles.activeFocusDot}>●</span>
+            FOCUS
+          </div>
 
-        {/* HEADER */}
+          <div style={styles.activeTimer}>
+            {formatTime(timeLeft)}
+          </div>
 
-        <div style={styles.label}>
-          FOCUS & WELLBEING
-        </div>
-
-        <h1 style={styles.title}>
-          {mode === "focus"
-            ? "Focus session"
-            : "Break time"}
-        </h1>
-
-        <p style={styles.subtitle}>
-          {mode === "focus"
-            ? "Stay focused. Your study time is activity — mastery is measured separately."
-            : "Take a short reset before returning to learning. Choose what feels right for you."}
-        </p>
-
-        {/* TIMER */}
-
-        <div style={styles.timer}>
-          {formatTime(timeLeft)}
-        </div>
-
-        {/* FOCUS MODE */}
-
-        {mode === "focus" ? (
-          <div style={styles.focusBox}>
-
-            <div style={styles.focusIcon}>
-              ◉
-            </div>
-
-            <h2>
-              Keep going
-            </h2>
-
-            <p>
-              Focus on your current learning
-              activity. When the timer ends,
-              you'll get a short break.
-            </p>
-
+          <div style={styles.activeFocusActions}>
             <button
+              type="button"
               onClick={startBreak}
-              style={styles.secondaryButton}
+              style={styles.activeBreakButton}
             >
-              Take break now
+              Break
             </button>
 
+            <button
+              type="button"
+              onClick={onExit}
+              style={styles.activeExitButton}
+            >
+              ×
+            </button>
           </div>
-        ) : (
-          <>
-            {/* BREAK HEADER */}
+        </div>
+      ) : mode === "focus" ? (
+        /* FOCUS SETUP */
+        <div style={styles.setupCard}>
+          <div style={styles.label}>
+            FOCUS & WELLBEING
+          </div>
 
-            <div style={styles.breakHeader}>
-              <span>
-                5 MINUTE RESET
-              </span>
+          <h1 style={styles.title}>
+            Focus session
+          </h1>
 
-              <span>
-                Your break is yours.
-              </span>
+          <p style={styles.subtitle}>
+            Choose how long you want to focus, then start your session.
+          </p>
+
+          <div style={styles.timer}>
+            {formatTime(focusMinutes * 60)}
+          </div>
+
+          <div style={styles.durationPicker}>
+            <div style={styles.sectionLabel}>
+              SET FOCUS DURATION
             </div>
 
-            {/* RIDDLE */}
-
-            <div style={styles.section}>
-
-              <div style={styles.sectionLabel}>
-                🧩 QUICK RIDDLE
-              </div>
-
-              <h2 style={styles.sectionTitle}>
-                {riddle.question}
-              </h2>
-
-              {showAnswer ? (
-                <div style={styles.answer}>
-                  Answer: {riddle.answer}
-                </div>
-              ) : (
+            <div style={styles.durationRow}>
+              {[10, 15, 25, 40, 50].map((minutes) => (
                 <button
-                  onClick={() =>
-                    setShowAnswer(true)
-                  }
-                  style={styles.smallButton}
+                  key={minutes}
+                  type="button"
+                  onClick={() => setFocusMinutes(minutes)}
+                  style={{
+                    ...styles.durationButton,
+                    ...(focusMinutes === minutes
+                      ? styles.durationButtonSelected
+                      : {}),
+                  }}
                 >
-                  Reveal answer
+                  {minutes} min
                 </button>
-              )}
-
-              <button
-                onClick={nextRiddle}
-                style={styles.linkButton}
-              >
-                Another riddle →
-              </button>
-
+              ))}
             </div>
 
-            {/* BREAK ACTIVITY */}
-
-            <div style={styles.section}>
-
-              <div style={styles.sectionLabel}>
-                🌿 BREAK ACTIVITY
-              </div>
-
-              <h2 style={styles.sectionTitle}>
-                {exercise.title}
-              </h2>
-
-              <div style={styles.duration}>
-                {exercise.duration}
-              </div>
-
-              <p style={styles.instruction}>
-                {exercise.instruction}
-              </p>
-
-              {exercise.title === "Others" && (
-                <div style={styles.freedomNote}>
-                  ✨ No rules here. Choose anything
-                  that helps you feel refreshed.
-                </div>
-              )}
-
-              <button
-                onClick={nextExercise}
-                style={styles.linkButton}
-              >
-                Another activity →
-              </button>
-
+            <div style={styles.customDurationRow}>
+              <label style={styles.customLabel}>
+                Custom
+                <input
+                  type="number"
+                  min="1"
+                  max="180"
+                  value={focusMinutes}
+                  onChange={(event) => {
+                    const value = Number(event.target.value);
+                    if (Number.isFinite(value)) {
+                      setFocusMinutes(value);
+                    }
+                  }}
+                  style={styles.durationInput}
+                />
+                min
+              </label>
             </div>
-
-            {/* RETURN TO FOCUS */}
 
             <button
-              onClick={startFocusAgain}
+              type="button"
+              onClick={beginFocusTimer}
               style={styles.button}
             >
-              Back to focus →
+              Start {focusMinutes || ""} Minute Focus →
             </button>
+          </div>
 
-          </>
-        )}
+          <button
+            type="button"
+            onClick={onExit}
+            style={styles.exitButton}
+          >
+            Exit focus mode
+          </button>
+        </div>
+      ) : (
+        /* BREAK: this is rendered inside the full-screen App overlay */
+        <div style={styles.breakCard}>
+          <div style={styles.breakHeader}>
+            <span>5 MINUTE RESET</span>
+            <span>Your break is yours.</span>
+          </div>
 
-        {/* EXIT */}
+          <div style={styles.breakTimer}>
+            {formatTime(timeLeft)}
+          </div>
 
-        <button
-          onClick={onExit}
-          style={styles.exitButton}
-        >
-          Exit focus mode
-        </button>
+          <div style={styles.section}>
+            <div style={styles.sectionLabel}>
+              🧩 QUICK RIDDLE
+            </div>
 
-      </div>
+            <h2 style={styles.sectionTitle}>
+              {riddle.question}
+            </h2>
+
+            {showAnswer ? (
+              <div style={styles.answer}>
+                Answer: {riddle.answer}
+              </div>
+            ) : (
+              <button
+                onClick={() => setShowAnswer(true)}
+                style={styles.smallButton}
+              >
+                Reveal answer
+              </button>
+            )}
+
+            <button
+              onClick={nextRiddle}
+              style={styles.linkButton}
+            >
+              Another riddle →
+            </button>
+          </div>
+
+          <div style={styles.section}>
+            <div style={styles.sectionLabel}>
+              🌿 BREAK ACTIVITY
+            </div>
+
+            <h2 style={styles.sectionTitle}>
+              {exercise.title}
+            </h2>
+
+            <div style={styles.duration}>
+              {exercise.duration}
+            </div>
+
+            <p style={styles.instruction}>
+              {exercise.instruction}
+            </p>
+
+            {exercise.title === "Others" && (
+              <div style={styles.freedomNote}>
+                ✨ No rules here. Choose anything that helps you feel refreshed.
+              </div>
+            )}
+
+            <button
+              onClick={nextExercise}
+              style={styles.linkButton}
+            >
+              Another activity →
+            </button>
+          </div>
+
+          <button
+            onClick={startFocusAgain}
+            style={styles.button}
+          >
+            Back to focus →
+          </button>
+
+          <button
+            onClick={onExit}
+            style={styles.exitButton}
+          >
+            Exit focus mode
+          </button>
+        </div>
+      )}
     </div>
   );
 }
 
 const styles = {
+  activeFocusPage: {
+    width: "100%",
+    boxSizing: "border-box",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "flex-start",
+    padding: "0",
+    pointerEvents: "none",
+  },
+
+  activeFocusBar: {
+    width: "min(430px, 92vw)",
+    minHeight: "58px",
+    boxSizing: "border-box",
+    margin: "0",
+    padding: "8px 10px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    gap: "10px",
+    borderRadius: "0 0 14px 14px",
+    background: "rgba(20,23,42,0.98)",
+    border: "1px solid rgba(148,163,184,0.15)",
+    borderTop: "none",
+    boxShadow: "0 12px 30px rgba(0,0,0,0.4)",
+    pointerEvents: "auto",
+  },
+
+  activeFocusLabel: {
+    display: "flex",
+    alignItems: "center",
+    gap: "6px",
+    color: "#c9c0ff",
+    fontSize: "10px",
+    fontWeight: "800",
+    letterSpacing: "1px",
+  },
+
+  activeFocusDot: {
+    color: "#a995ff",
+    fontSize: "9px",
+  },
+
+  activeTimer: {
+    minWidth: "112px",
+    padding: "4px 10px",
+    boxSizing: "border-box",
+    textAlign: "center",
+    borderRadius: "10px",
+    background: "rgba(128,104,245,0.12)",
+    border: "1px solid rgba(128,104,245,0.25)",
+    color: "#b7a9ff",
+    fontSize: "25px",
+    lineHeight: "1.1",
+    fontWeight: "800",
+    letterSpacing: "1px",
+  },
+
+  activeFocusActions: {
+    display: "flex",
+    alignItems: "center",
+    gap: "6px",
+  },
+
+  activeBreakButton: {
+    border: "1px solid rgba(139,112,255,0.3)",
+    borderRadius: "8px",
+    padding: "7px 9px",
+    color: "#d9d2ff",
+    background: "rgba(128,104,245,0.08)",
+    cursor: "pointer",
+    fontSize: "10px",
+  },
+
+  activeExitButton: {
+    width: "28px",
+    height: "28px",
+    border: "1px solid rgba(148,163,184,0.18)",
+    borderRadius: "8px",
+    color: "#9ca4b6",
+    background: "rgba(255,255,255,0.04)",
+    cursor: "pointer",
+    fontSize: "18px",
+    lineHeight: "1",
+  },
+
+  setupCard: {
+    width: "min(430px, 92vw)",
+    boxSizing: "border-box",
+    padding: "16px",
+    borderRadius: "0 0 18px 18px",
+    background: "rgba(20,23,42,0.98)",
+    border: "1px solid rgba(148,163,184,0.15)",
+    borderTop: "none",
+    boxShadow: "0 18px 45px rgba(0,0,0,0.45)",
+    pointerEvents: "auto",
+  },
+
+  breakPage: {
+    width: "100%",
+    minHeight: "100%",
+    boxSizing: "border-box",
+    display: "flex",
+    justifyContent: "center",
+    padding: "0",
+    fontFamily: "Inter, system-ui, sans-serif",
+  },
+
+  breakCard: {
+    width: "100%",
+    maxWidth: "860px",
+    boxSizing: "border-box",
+    padding: "28px",
+    borderRadius: "24px",
+    background: "rgba(20,23,42,0.98)",
+    border: "1px solid rgba(148,163,184,0.15)",
+    boxShadow: "0 30px 90px rgba(0,0,0,0.55)",
+    color: "#f4f4f8",
+  },
+
+  breakTimer: {
+    width: "150px",
+    margin: "14px auto 20px",
+    padding: "8px 12px",
+    boxSizing: "border-box",
+    textAlign: "center",
+    borderRadius: "14px",
+    background: "rgba(128,104,245,0.12)",
+    border: "1px solid rgba(128,104,245,0.25)",
+    color: "#b7a9ff",
+    fontSize: "28px",
+    fontWeight: "800",
+  },
+
   page: {
-    minHeight: "100vh",
+    width: "100%",
+    minHeight: "0",
+    boxSizing: "border-box",
 
     background:
       "radial-gradient(circle at 20% 15%, rgba(99,64,180,0.25), transparent 35%), radial-gradient(circle at 80% 20%, rgba(24,111,132,0.16), transparent 30%), #050812",
@@ -307,23 +514,21 @@ const styles = {
     color: "#f4f4f8",
 
     display: "flex",
-
     justifyContent: "center",
+    alignItems: "flex-start",
 
-    alignItems: "center",
-
-    padding: "40px 20px",
+    padding: "8px 12px",
 
     fontFamily:
       "Inter, system-ui, sans-serif",
   },
 
   card: {
-    width: "720px",
+    width: "100%",
+    maxWidth: "560px",
+    boxSizing: "border-box",
 
-    maxWidth: "100%",
-
-    padding: "45px",
+    padding: "14px 18px",
 
     borderRadius: "28px",
 
@@ -348,9 +553,8 @@ const styles = {
   },
 
   title: {
-    margin: "12px 0 7px",
-
-    fontSize: "32px",
+    margin: "8px 0 5px",
+    fontSize: "26px",
   },
 
   subtitle: {
@@ -362,11 +566,12 @@ const styles = {
   },
 
   timer: {
-    margin: "30px auto",
+    margin: "8px auto",
 
-    width: "210px",
+    width: "180px",
+    boxSizing: "border-box",
 
-    padding: "22px",
+    padding: "8px 14px",
 
     borderRadius: "20px",
 
@@ -380,17 +585,74 @@ const styles = {
 
     color: "#b7a9ff",
 
-    fontSize: "45px",
+    fontSize: "34px",
 
     fontWeight: "800",
 
     letterSpacing: "2px",
   },
 
+  durationPicker: {
+    marginTop: "8px",
+    padding: "12px",
+    borderRadius: "16px",
+    background: "rgba(255,255,255,0.025)",
+    border: "1px solid rgba(148,163,184,0.08)",
+  },
+
+  durationRow: {
+    display: "flex",
+    flexWrap: "wrap",
+    justifyContent: "center",
+    gap: "6px",
+    marginTop: "8px",
+  },
+
+  durationButton: {
+    border: "1px solid rgba(139,112,255,0.25)",
+    borderRadius: "10px",
+    padding: "7px 10px",
+    color: "#c9c0ff",
+    background: "rgba(128,104,245,0.06)",
+    cursor: "pointer",
+    fontSize: "11px",
+  },
+
+  durationButtonSelected: {
+    background: "rgba(128,104,245,0.25)",
+    border: "1px solid rgba(139,112,255,0.65)",
+    color: "white",
+  },
+
+  customDurationRow: {
+    marginTop: "8px",
+    display: "flex",
+    justifyContent: "center",
+  },
+
+  customLabel: {
+    display: "flex",
+    alignItems: "center",
+    gap: "8px",
+    color: "#9ca4b6",
+    fontSize: "11px",
+  },
+
+  durationInput: {
+    width: "64px",
+    padding: "6px 8px",
+    borderRadius: "9px",
+    border: "1px solid rgba(139,112,255,0.25)",
+    background: "rgba(0,0,0,0.2)",
+    color: "white",
+    textAlign: "center",
+  },
+
   focusBox: {
     textAlign: "center",
+    marginTop: "10px",
 
-    padding: "25px",
+    padding: "14px",
 
     borderRadius: "18px",
 
